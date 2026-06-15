@@ -742,9 +742,24 @@
     // ============================================================
     // 配置管理（统一一份）
     // ============================================================
+    // 内置默认配置（与「表格提取配置.json」保持一致）
+    const BUILT_IN_CONFIG = { version: "1.0", updatedAt: "2026-06-15T05:20:42.817Z", fields: [
+        { id: "6acdddcd-88cb-415f-a293-8a1d917e6a0f", label: "集团协议相对占比", coordinate: "F51" },
+        { id: "dd7f6245-2b81-4bd5-8758-c394462f4ef4", label: "线上中介相对占比", coordinate: "F60" },
+        { id: "58a05eb9-e2d6-4915-8dd9-dee127653f04", label: "会员相对占比", coordinate: "F39" },
+        { id: "55646bf3-778e-485d-b95c-c82da9f29ccb", label: "线下中介相对占比", coordinate: "F61" },
+        { id: "c560049c-8727-48d6-afaa-003048f5e890", label: "会员商务日房相对占比", coordinate: "F112" },
+        { id: "92d49ede-0d66-410d-a62c-158e7338c412", label: "会员(间夜)", coordinate: "C39" },
+        { id: "220dd976-e6de-4a01-a9df-c96b7c967c67", label: "携程线上(间夜)", coordinate: "C60" },
+        { id: "653da647-60c7-4198-97d1-b28c7873512e", label: "美团线上(间夜)", coordinate: "C68" }
+    ]};
+
     function getConfig() {
         const s = localStorage.getItem(CONFIG_KEY);
-        return s ? JSON.parse(s) : { version: '1.0', updatedAt: new Date().toISOString(), fields: [] };
+        if (s) return JSON.parse(s);
+        // 首次使用：加载内置默认配置
+        saveConfig(BUILT_IN_CONFIG);
+        return JSON.parse(JSON.stringify(BUILT_IN_CONFIG));
     }
 
     function saveConfig(config) {
